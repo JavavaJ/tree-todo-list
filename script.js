@@ -5,11 +5,13 @@ let tasks = [
         title: "Shopping",
         completed: false,
         expanded: false,
+        weightedMode: false,
+        weight: 0,
         subtasks: [
-            { id: 11, title: "Buy potatoes", completed: false },
-            { id: 12, title: "Buy meat", completed: true },
-            { id: 13, title: "Buy vegetables", completed: false },
-            { id: 14, title: "Buy dairy products", completed: false }
+            { id: 11, title: "Buy potatoes", completed: false, weight: 0 },
+            { id: 12, title: "Buy meat", completed: true, weight: 0 },
+            { id: 13, title: "Buy vegetables", completed: false, weight: 0 },
+            { id: 14, title: "Buy dairy products", completed: false, weight: 0 }
         ]
     },
     {
@@ -17,11 +19,13 @@ let tasks = [
         title: "Home Renovation",
         completed: false,
         expanded: false,
+        weightedMode: true,
+        weight: 0,
         subtasks: [
-            { id: 21, title: "Paint living room", completed: true },
-            { id: 22, title: "Install new flooring", completed: false },
-            { id: 23, title: "Replace light fixtures", completed: true },
-            { id: 24, title: "Organize storage", completed: false }
+            { id: 21, title: "Paint living room", completed: true, weight: 120 },
+            { id: 22, title: "Install new flooring", completed: false, weight: 300 },
+            { id: 23, title: "Replace light fixtures", completed: true, weight: 45 },
+            { id: 24, title: "Organize storage", completed: false, weight: 90 }
         ]
     },
     {
@@ -29,12 +33,14 @@ let tasks = [
         title: "Work Project",
         completed: false,
         expanded: false,
+        weightedMode: false,
+        weight: 0,
         subtasks: [
-            { id: 31, title: "Research requirements", completed: true },
-            { id: 32, title: "Create wireframes", completed: true },
-            { id: 33, title: "Develop prototype", completed: false },
-            { id: 34, title: "Test functionality", completed: false },
-            { id: 35, title: "Deploy to production", completed: false }
+            { id: 31, title: "Research requirements", completed: true, weight: 0 },
+            { id: 32, title: "Create wireframes", completed: true, weight: 0 },
+            { id: 33, title: "Develop prototype", completed: false, weight: 0 },
+            { id: 34, title: "Test functionality", completed: false, weight: 0 },
+            { id: 35, title: "Deploy to production", completed: false, weight: 0 }
         ]
     }
 ];
@@ -44,8 +50,25 @@ function calculateProgress(task) {
         return task.completed ? 100 : 0;
     }
     
-    const completedSubtasks = task.subtasks.filter(subtask => subtask.completed).length;
-    return Math.round((completedSubtasks / task.subtasks.length) * 100);
+    if (task.weightedMode) {
+        // Calculate progress based on time weights
+        const totalWeight = task.subtasks.reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
+        if (totalWeight === 0) {
+            // Fallback to count-based if no weights assigned
+            const completedSubtasks = task.subtasks.filter(subtask => subtask.completed).length;
+            return Math.round((completedSubtasks / task.subtasks.length) * 100);
+        }
+        
+        const completedWeight = task.subtasks
+            .filter(subtask => subtask.completed)
+            .reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
+        
+        return Math.round((completedWeight / totalWeight) * 100);
+    } else {
+        // Calculate progress based on task count (original behavior)
+        const completedSubtasks = task.subtasks.filter(subtask => subtask.completed).length;
+        return Math.round((completedSubtasks / task.subtasks.length) * 100);
+    }
 }
 
 function updateTaskCompletion(task) {
@@ -63,6 +86,16 @@ function renderTasks() {
         updateTaskCompletion(task);
         const progress = calculateProgress(task);
         
+        // Calculate total time for weighted tasks
+        let timeInfo = '';
+        if (task.weightedMode && task.subtasks && task.subtasks.length > 0) {
+            const totalTime = task.subtasks.reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
+            const completedTime = task.subtasks
+                .filter(subtask => subtask.completed)
+                .reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
+            timeInfo = `<div class="time-info">${completedTime}/${totalTime} min</div>`;
+        }
+        
         const taskElement = document.createElement('div');
         taskElement.className = 'task-item';
         taskElement.innerHTML = `
@@ -71,12 +104,14 @@ function renderTasks() {
                 <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
                        onchange="toggleTaskCompletion(${task.id})" onclick="event.stopPropagation()">
                 <span class="task-title ${task.completed ? 'completed' : ''}">${task.title}</span>
+                ${task.weightedMode ? '<span class="weighted-badge">⏱️</span>' : ''}
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill ${progress === 100 ? 'completed' : ''}" 
                              style="width: ${progress}%"></div>
                     </div>
                     <div class="progress-text">${progress}%</div>
+                    ${timeInfo}
                 </div>
             </div>
             ${task.subtasks && task.subtasks.length > 0 ? `
@@ -86,6 +121,7 @@ function renderTasks() {
                             <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
                                    onchange="toggleSubtaskCompletion(${task.id}, ${subtask.id})">
                             <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+                            ${task.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
                         </div>
                     `).join('')}
                 </div>
@@ -166,6 +202,8 @@ function closeAddTaskModal() {
     document.getElementById('addTaskForm').reset();
     document.getElementById('subtasksSection').style.display = 'none';
     document.getElementById('subtasksList').innerHTML = '';
+    document.getElementById('taskWeightSection').style.display = 'none';
+    document.getElementById('useWeightedProgress').checked = false;
 }
 
 function toggleSubtasksSection() {
@@ -181,14 +219,63 @@ function toggleSubtasksSection() {
     }
 }
 
+function toggleWeightedProgress() {
+    const checkbox = document.getElementById('useWeightedProgress');
+    const weightSection = document.getElementById('taskWeightSection');
+    
+    if (checkbox.checked) {
+        weightSection.style.display = 'block';
+    } else {
+        weightSection.style.display = 'none';
+        document.getElementById('taskWeight').value = '';
+    }
+    
+    // Update subtask inputs if they exist
+    updateSubtaskWeightInputs();
+}
+
+function updateSubtaskWeightInputs() {
+    const useWeighted = document.getElementById('useWeightedProgress').checked;
+    const subtaskInputs = document.querySelectorAll('.subtask-input-group');
+    
+    subtaskInputs.forEach(inputGroup => {
+        const existingWeightInput = inputGroup.querySelector('.subtask-weight-input');
+        
+        if (useWeighted && !existingWeightInput) {
+            // Add weight input
+            const weightInput = document.createElement('input');
+            weightInput.type = 'number';
+            weightInput.className = 'subtask-weight-input';
+            weightInput.placeholder = 'Time (min)';
+            weightInput.min = '1';
+            weightInput.style.width = '80px';
+            weightInput.style.marginRight = '10px';
+            
+            const removeBtn = inputGroup.querySelector('.remove-subtask-btn');
+            inputGroup.insertBefore(weightInput, removeBtn);
+        } else if (!useWeighted && existingWeightInput) {
+            // Remove weight input
+            existingWeightInput.remove();
+        }
+    });
+}
+
 function addSubtaskInput() {
     const subtasksList = document.getElementById('subtasksList');
     const subtaskCount = subtasksList.children.length;
+    const useWeighted = document.getElementById('useWeightedProgress').checked;
     
     const subtaskDiv = document.createElement('div');
     subtaskDiv.className = 'subtask-input-group';
+    
+    let weightInputHtml = '';
+    if (useWeighted) {
+        weightInputHtml = '<input type="number" class="subtask-weight-input" placeholder="Time (min)" min="1" style="width: 80px; margin-right: 10px;">';
+    }
+    
     subtaskDiv.innerHTML = `
         <input type="text" class="subtask-input" placeholder="Enter subtask title..." data-index="${subtaskCount}">
+        ${weightInputHtml}
         <button type="button" class="remove-subtask-btn" onclick="removeSubtaskInput(this)">×</button>
     `;
     
@@ -212,11 +299,16 @@ function addNewTask() {
         return;
     }
     
+    const useWeighted = document.getElementById('useWeightedProgress').checked;
+    const taskWeight = useWeighted ? parseInt(document.getElementById('taskWeight').value) || 0 : 0;
+    
     const newTask = {
         id: Date.now(),
         title: title,
         completed: false,
         expanded: false,
+        weightedMode: useWeighted,
+        weight: taskWeight,
         subtasks: []
     };
     
@@ -224,13 +316,19 @@ function addNewTask() {
     const hasSubtasks = document.getElementById('hasSubtasks').checked;
     if (hasSubtasks) {
         const subtaskInputs = document.querySelectorAll('.subtask-input');
+        const weightInputs = document.querySelectorAll('.subtask-weight-input');
+        
         subtaskInputs.forEach((input, index) => {
             const subtaskTitle = input.value.trim();
             if (subtaskTitle) {
+                const subtaskWeight = useWeighted && weightInputs[index] ? 
+                    parseInt(weightInputs[index].value) || 0 : 0;
+                
                 newTask.subtasks.push({
                     id: Date.now() + index + Math.random(),
                     title: subtaskTitle,
-                    completed: false
+                    completed: false,
+                    weight: subtaskWeight
                 });
             }
         });

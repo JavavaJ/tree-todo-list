@@ -100,7 +100,7 @@ body {
 }
 
 .progress-container {
-    flex: 0 0 200px;
+    flex: 0 0 220px;
     margin-left: 20px;
 }
 
@@ -391,4 +391,44 @@ body {
 
 .modal-btn.secondary:hover {
     background: #5a6268;
+}
+
+/* Weighted Progress Styles */
+.weighted-badge {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 12px;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.time-info {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.subtask-weight {
+    background: #e9ecef;
+    color: #495057;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.subtask-weight-input {
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.85em;
+    text-align: center;
+}
+
+.subtask-input-group {
+    align-items: center;
 } 

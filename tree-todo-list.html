@@ -36,6 +36,16 @@
                 </div>
                 
                 <div class="checkbox-group">
+                    <input type="checkbox" id="useWeightedProgress" onchange="toggleWeightedProgress()">
+                    <label for="useWeightedProgress">Use time-based progress (assign time estimates)</label>
+                </div>
+                
+                <div id="taskWeightSection" class="form-group" style="display: none;">
+                    <label for="taskWeight">Estimated Time (minutes)</label>
+                    <input type="number" id="taskWeight" class="form-input" placeholder="Enter estimated time in minutes..." min="1">
+                </div>
+                
+                <div class="checkbox-group">
                     <input type="checkbox" id="hasSubtasks" onchange="toggleSubtasksSection()">
                     <label for="hasSubtasks">Add subtasks to this task</label>
                 </div>
