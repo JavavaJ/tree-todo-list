@@ -321,6 +321,27 @@ body {
     font-size: 0.9em;
 }
 
+/* Multi-level subtask styling */
+.subtask-toggle {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.subtask-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.subtask-spacer {
+    display: inline-block;
+    width: 16px;
+    margin-right: 10px;
+}
+
 .remove-subtask-btn {
     background: #dc3545;
     color: white;
@@ -423,10 +444,6 @@ body {
     border-radius: 4px;
     font-size: 0.85em;
     text-align: center;
-}
-
-.subtask-input-group {
-    align-items: center;
 }
 
 /* Celebration Animation Styles */

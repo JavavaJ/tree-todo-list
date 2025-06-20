@@ -1,4 +1,4 @@
-// Sample data structure for tasks
+// Sample data structure for tasks with unlimited nesting levels
 let tasks = [
     {
         id: 1,
@@ -8,10 +8,32 @@ let tasks = [
         weightedMode: false,
         weight: 0,
         subtasks: [
-            { id: 11, title: "Buy potatoes", completed: false, weight: 0 },
-            { id: 12, title: "Buy meat", completed: true, weight: 0 },
-            { id: 13, title: "Buy vegetables", completed: false, weight: 0 },
-            { id: 14, title: "Buy dairy products", completed: false, weight: 0 }
+            { 
+                id: 11, 
+                title: "Buy groceries", 
+                completed: false, 
+                expanded: false,
+                weightedMode: false,
+                weight: 0,
+                subtasks: [
+                    { id: 111, title: "Buy potatoes", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                    { id: 112, title: "Buy meat", completed: true, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                    { 
+                        id: 113, 
+                        title: "Buy vegetables", 
+                        completed: false, 
+                        expanded: false,
+                        weightedMode: false,
+                        weight: 0,
+                        subtasks: [
+                            { id: 1131, title: "Carrots", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                            { id: 1132, title: "Broccoli", completed: true, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                            { id: 1133, title: "Spinach", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] }
+                        ]
+                    }
+                ]
+            },
+            { id: 12, title: "Buy dairy products", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] }
         ]
     },
     {
@@ -22,10 +44,10 @@ let tasks = [
         weightedMode: true,
         weight: 0,
         subtasks: [
-            { id: 21, title: "Paint living room", completed: true, weight: 120 },
-            { id: 22, title: "Install new flooring", completed: false, weight: 300 },
-            { id: 23, title: "Replace light fixtures", completed: true, weight: 45 },
-            { id: 24, title: "Organize storage", completed: false, weight: 90 }
+            { id: 21, title: "Paint living room", completed: true, expanded: false, weightedMode: false, weight: 120, subtasks: [] },
+            { id: 22, title: "Install new flooring", completed: false, expanded: false, weightedMode: false, weight: 300, subtasks: [] },
+            { id: 23, title: "Replace light fixtures", completed: true, expanded: false, weightedMode: false, weight: 45, subtasks: [] },
+            { id: 24, title: "Organize storage", completed: false, expanded: false, weightedMode: false, weight: 90, subtasks: [] }
         ]
     },
     {
@@ -36,11 +58,31 @@ let tasks = [
         weightedMode: false,
         weight: 0,
         subtasks: [
-            { id: 31, title: "Research requirements", completed: true, weight: 0 },
-            { id: 32, title: "Create wireframes", completed: true, weight: 0 },
-            { id: 33, title: "Develop prototype", completed: false, weight: 0 },
-            { id: 34, title: "Test functionality", completed: false, weight: 0 },
-            { id: 35, title: "Deploy to production", completed: false, weight: 0 }
+            { 
+                id: 31, 
+                title: "Planning phase", 
+                completed: false, 
+                expanded: false,
+                weightedMode: false,
+                weight: 0,
+                subtasks: [
+                    { id: 311, title: "Research requirements", completed: true, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                    { id: 312, title: "Create wireframes", completed: true, expanded: false, weightedMode: false, weight: 0, subtasks: [] }
+                ]
+            },
+            { 
+                id: 32, 
+                title: "Development phase", 
+                completed: false, 
+                expanded: false,
+                weightedMode: false,
+                weight: 0,
+                subtasks: [
+                    { id: 321, title: "Develop prototype", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                    { id: 322, title: "Test functionality", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+                    { id: 323, title: "Deploy to production", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] }
+                ]
+            }
         ]
     },
     {
@@ -51,26 +93,26 @@ let tasks = [
         weightedMode: false,
         weight: 0,
         subtasks: [
-            { id: 41, title: "Read Book 1", completed: false, weight: 0 },
-            { id: 42, title: "Read Book 2", completed: false, weight: 0 },
-            { id: 43, title: "Read Book 3", completed: false, weight: 0 },
-            { id: 44, title: "Read Book 4", completed: false, weight: 0 },
-            { id: 45, title: "Read Book 5", completed: false, weight: 0 },
-            { id: 46, title: "Read Book 6", completed: false, weight: 0 },
-            { id: 47, title: "Read Book 7", completed: false, weight: 0 },
-            { id: 48, title: "Read Book 8", completed: false, weight: 0 },
-            { id: 49, title: "Read Book 9", completed: false, weight: 0 },
-            { id: 410, title: "Read Book 10", completed: false, weight: 0 },
-            { id: 411, title: "Read Book 11", completed: false, weight: 0 },
-            { id: 412, title: "Read Book 12", completed: false, weight: 0 },
-            { id: 413, title: "Read Book 13", completed: false, weight: 0 },
-            { id: 414, title: "Read Book 14", completed: false, weight: 0 },
-            { id: 415, title: "Read Book 15", completed: false, weight: 0 },
-            { id: 416, title: "Read Book 16", completed: false, weight: 0 },
-            { id: 417, title: "Read Book 17", completed: false, weight: 0 },
-            { id: 418, title: "Read Book 18", completed: false, weight: 0 },
-            { id: 419, title: "Read Book 19", completed: false, weight: 0 },
-            { id: 420, title: "Read Book 20", completed: false, weight: 0 }
+            { id: 41, title: "Read Book 1", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 42, title: "Read Book 2", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 43, title: "Read Book 3", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 44, title: "Read Book 4", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 45, title: "Read Book 5", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 46, title: "Read Book 6", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 47, title: "Read Book 7", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 48, title: "Read Book 8", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 49, title: "Read Book 9", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 410, title: "Read Book 10", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 411, title: "Read Book 11", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 412, title: "Read Book 12", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 413, title: "Read Book 13", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 414, title: "Read Book 14", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 415, title: "Read Book 15", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 416, title: "Read Book 16", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 417, title: "Read Book 17", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 418, title: "Read Book 18", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 419, title: "Read Book 19", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] },
+            { id: 420, title: "Read Book 20", completed: false, expanded: false, weightedMode: false, weight: 0, subtasks: [] }
         ]
     }
 ];
@@ -81,24 +123,76 @@ function calculateProgress(task) {
     }
     
     if (task.weightedMode) {
-        // Calculate progress based on time weights
-        const totalWeight = task.subtasks.reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
+        // Calculate progress based on time weights (recursive)
+        const totalWeight = calculateTotalWeight(task.subtasks);
         if (totalWeight === 0) {
             // Fallback to count-based if no weights assigned
-            const completedSubtasks = task.subtasks.filter(subtask => subtask.completed).length;
-            return Math.round((completedSubtasks / task.subtasks.length) * 100);
+            return calculateCountBasedProgress(task.subtasks);
         }
         
-        const completedWeight = task.subtasks
-            .filter(subtask => subtask.completed)
-            .reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
-        
+        const completedWeight = calculateCompletedWeight(task.subtasks);
         return Math.round((completedWeight / totalWeight) * 100);
     } else {
-        // Calculate progress based on task count (original behavior)
-        const completedSubtasks = task.subtasks.filter(subtask => subtask.completed).length;
-        return Math.round((completedSubtasks / task.subtasks.length) * 100);
+        // Calculate progress based on task count (recursive)
+        return calculateCountBasedProgress(task.subtasks);
     }
+}
+
+function calculateTotalWeight(subtasks) {
+    return subtasks.reduce((sum, subtask) => {
+        const subtaskWeight = subtask.weight || 0;
+        const childrenWeight = subtask.subtasks && subtask.subtasks.length > 0 
+            ? calculateTotalWeight(subtask.subtasks) 
+            : 0;
+        return sum + subtaskWeight + childrenWeight;
+    }, 0);
+}
+
+function calculateCompletedWeight(subtasks) {
+    return subtasks.reduce((sum, subtask) => {
+        let weight = 0;
+        
+        if (subtask.subtasks && subtask.subtasks.length > 0) {
+            // If has children, calculate based on children completion
+            const childProgress = calculateProgress(subtask);
+            const totalChildWeight = calculateTotalWeight(subtask.subtasks);
+            weight = (childProgress / 100) * (totalChildWeight + (subtask.weight || 0));
+        } else {
+            // Leaf node - use direct completion status
+            weight = subtask.completed ? (subtask.weight || 0) : 0;
+        }
+        
+        return sum + weight;
+    }, 0);
+}
+
+function calculateCountBasedProgress(subtasks) {
+    const totalTasks = countAllTasks(subtasks);
+    const completedTasks = countCompletedTasks(subtasks);
+    return totalTasks === 0 ? 100 : Math.round((completedTasks / totalTasks) * 100);
+}
+
+function countAllTasks(subtasks) {
+    return subtasks.reduce((count, subtask) => {
+        const childCount = subtask.subtasks && subtask.subtasks.length > 0 
+            ? countAllTasks(subtask.subtasks) 
+            : 0;
+        return count + 1 + childCount;
+    }, 0);
+}
+
+function countCompletedTasks(subtasks) {
+    return subtasks.reduce((count, subtask) => {
+        const isCompleted = subtask.subtasks && subtask.subtasks.length > 0
+            ? calculateProgress(subtask) === 100
+            : subtask.completed;
+        
+        const childCount = subtask.subtasks && subtask.subtasks.length > 0 
+            ? countCompletedTasks(subtask.subtasks) 
+            : 0;
+            
+        return count + (isCompleted ? 1 : 0) + childCount;
+    }, 0);
 }
 
 function updateTaskCompletion(task) {
@@ -110,33 +204,49 @@ function updateTaskCompletion(task) {
 
 function renderTasks() {
     const taskList = document.getElementById('taskList');
+    
+    // Store scroll position to restore after render
+    const scrollTop = taskList.scrollTop;
+    
     taskList.innerHTML = '';
-
+    
     tasks.forEach(task => {
-        updateTaskCompletion(task);
-        const progress = calculateProgress(task);
-        const progressGradient = getProgressGradient(progress);
+        renderTaskRecursive(task, taskList, 0);
+    });
+    
+    // Restore scroll position
+    taskList.scrollTop = scrollTop;
+}
+
+function renderTaskRecursive(task, parentElement, level) {
+    updateTaskCompletion(task);
+    const progress = calculateProgress(task);
+    const progressGradient = getProgressGradient(progress);
+    
+    // Check for celebration
+    checkAndCelebrate(task);
+    
+    const taskElement = document.createElement('div');
+    
+    if (level === 0) {
+        // Main task styling - full featured with progress bar
+        const totalTime = task.weightedMode && task.subtasks && task.subtasks.length > 0 
+            ? calculateTotalWeight(task.subtasks) 
+            : 0;
+        const completedTime = task.weightedMode && task.subtasks && task.subtasks.length > 0 
+            ? calculateCompletedWeight(task.subtasks) 
+            : 0;
+        const timeInfo = task.weightedMode && totalTime > 0 
+            ? `<div class="time-info">${Math.round(completedTime)}/${totalTime} min</div>` 
+            : '';
         
-        // Check for celebration
-        checkAndCelebrate(task);
-        
-        // Calculate total time for weighted tasks
-        let timeInfo = '';
-        if (task.weightedMode && task.subtasks && task.subtasks.length > 0) {
-            const totalTime = task.subtasks.reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
-            const completedTime = task.subtasks
-                .filter(subtask => subtask.completed)
-                .reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
-            timeInfo = `<div class="time-info">${completedTime}/${totalTime} min</div>`;
-        }
-        
-        const taskElement = document.createElement('div');
         taskElement.className = 'task-item';
         taskElement.innerHTML = `
-            <div class="task-header" onclick="toggleTask(${task.id})">
-                <span class="task-toggle ${task.subtasks && task.subtasks.length > 0 ? (task.expanded ? 'expanded' : '') : 'hidden'}" id="toggle-${task.id}">▶</span>
+            <div class="task-header">
+                <span class="task-toggle ${task.subtasks && task.subtasks.length > 0 ? (task.expanded ? 'expanded' : '') : 'hidden'}" 
+                      id="toggle-${task.id}" onclick="toggleTaskRecursive('${task.id}')">▶</span>
                 <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                       onchange="toggleTaskCompletion(${task.id})" onclick="event.stopPropagation()">
+                       onchange="toggleTaskCompletionRecursive('${task.id}')" onclick="event.stopPropagation()">
                 <span class="task-title ${task.completed ? 'completed' : ''}">${task.title}</span>
                 ${task.weightedMode ? '<span class="weighted-badge">⏱️</span>' : ''}
                 <div class="progress-container">
@@ -150,75 +260,266 @@ function renderTasks() {
             </div>
             ${task.subtasks && task.subtasks.length > 0 ? `
                 <div class="subtasks ${task.expanded ? 'expanded' : ''}" id="subtasks-${task.id}">
-                    ${task.subtasks.map(subtask => `
-                        <div class="subtask-item">
-                            <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
-                                   onchange="toggleSubtaskCompletion(${task.id}, ${subtask.id})">
-                            <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
-                            ${task.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
-                        </div>
-                    `).join('')}
+                    <!-- Child tasks will be rendered here -->
                 </div>
             ` : ''}
         `;
-        
-        taskList.appendChild(taskElement);
-    });
+    } else {
+        // Subtask styling - simple, no progress bar
+        taskElement.className = 'subtask-item';
+        taskElement.style.paddingLeft = `${30 + (level - 1) * 20}px`;
+        taskElement.innerHTML = `
+            ${task.subtasks && task.subtasks.length > 0 ? `
+                <span class="subtask-toggle ${task.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${task.id}')" id="toggle-${task.id}">▶</span>
+            ` : '<span class="subtask-spacer"></span>'}
+            <input type="checkbox" class="subtask-checkbox" ${task.completed ? 'checked' : ''}
+                   onchange="toggleTaskCompletionRecursive('${task.id}')">
+            <span class="subtask-title ${task.completed ? 'completed' : ''}">${task.title}</span>
+            ${task.weightedMode && task.weight > 0 ? `<span class="subtask-weight">${task.weight} min</span>` : ''}
+        `;
+    }
+    
+    parentElement.appendChild(taskElement);
+    
+    // Render child tasks if expanded
+    if (task.expanded && task.subtasks && task.subtasks.length > 0) {
+        const subtasksContainer = level === 0 
+            ? document.getElementById(`subtasks-${task.id}`)
+            : parentElement;
+            
+        task.subtasks.forEach(subtask => {
+            renderTaskRecursive(subtask, subtasksContainer, level + 1);
+        });
+    }
 }
 
-function toggleTask(taskId) {
-    const task = tasks.find(t => t.id === taskId);
+function findTaskRecursive(taskId, taskList = tasks) {
+    for (let task of taskList) {
+        if (task.id.toString() === taskId.toString()) {
+            return task;
+        }
+        if (task.subtasks && task.subtasks.length > 0) {
+            const found = findTaskRecursive(taskId, task.subtasks);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+function toggleTaskRecursive(taskId) {
+    const task = findTaskRecursive(taskId);
     if (task) {
         task.expanded = !task.expanded;
         
-        // Update the visual state smoothly without re-rendering
-        const subtasks = document.getElementById(`subtasks-${taskId}`);
         const toggle = document.getElementById(`toggle-${taskId}`);
+        const subtasksContainer = document.getElementById(`subtasks-${taskId}`);
         
-        if (subtasks && toggle) {
+        if (toggle && subtasksContainer) {
+            // Handle main task (level 0) toggle - this works fine
             if (task.expanded) {
-                subtasks.classList.add('expanded');
                 toggle.classList.add('expanded');
+                subtasksContainer.classList.add('expanded');
+                
+                // Render children into the existing container
+                subtasksContainer.innerHTML = '';
+                task.subtasks.forEach(subtask => {
+                    renderTaskRecursive(subtask, subtasksContainer, 1);
+                });
             } else {
-                subtasks.classList.remove('expanded');
                 toggle.classList.remove('expanded');
+                subtasksContainer.classList.remove('expanded');
+                subtasksContainer.innerHTML = '';
+            }
+        } else if (toggle) {
+            // For nested subtasks, use targeted DOM manipulation
+            if (task.expanded) {
+                toggle.classList.add('expanded');
+                
+                // Insert children right after the current element
+                const currentElement = toggle.closest('.subtask-item');
+                const parentContainer = currentElement.parentElement;
+                
+                // Calculate the correct indentation level
+                const currentPadding = parseInt(currentElement.style.paddingLeft) || 30;
+                const currentLevel = Math.max(1, Math.floor((currentPadding - 30) / 20) + 1);
+                
+                // Insert each child after the current element
+                let insertAfter = currentElement;
+                task.subtasks.forEach(subtask => {
+                    const childElement = document.createElement('div');
+                    childElement.className = 'subtask-item';
+                    childElement.style.paddingLeft = `${30 + currentLevel * 20}px`;
+                    childElement.innerHTML = `
+                        ${subtask.subtasks && subtask.subtasks.length > 0 ? `
+                            <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}">▶</span>
+                        ` : '<span class="subtask-spacer"></span>'}
+                        <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
+                               onchange="toggleTaskCompletionRecursive('${subtask.id}')">
+                        <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+                        ${subtask.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
+                    `;
+                    
+                    // Insert after the previous element
+                    parentContainer.insertBefore(childElement, insertAfter.nextSibling);
+                    insertAfter = childElement;
+                    
+                    // If this child is expanded, render its children too
+                    if (subtask.expanded && subtask.subtasks && subtask.subtasks.length > 0) {
+                        insertAfter = insertNestedChildren(subtask, parentContainer, insertAfter, currentLevel + 1);
+                    }
+                });
+            } else {
+                toggle.classList.remove('expanded');
+                
+                // Remove all direct children of this task
+                const currentElement = toggle.closest('.subtask-item');
+                const parentContainer = currentElement.parentElement;
+                const currentPadding = parseInt(currentElement.style.paddingLeft) || 30;
+                
+                // Remove elements that are children of this task
+                let nextElement = currentElement.nextSibling;
+                while (nextElement && 
+                       nextElement.classList && 
+                       nextElement.classList.contains('subtask-item')) {
+                    const nextPadding = parseInt(nextElement.style.paddingLeft) || 30;
+                    if (nextPadding > currentPadding) {
+                        const elementToRemove = nextElement;
+                        nextElement = nextElement.nextSibling;
+                        parentContainer.removeChild(elementToRemove);
+                    } else {
+                        break;
+                    }
+                }
             }
         }
     }
 }
 
-function toggleTaskCompletion(taskId) {
-    const task = tasks.find(t => t.id === taskId);
+
+
+function toggleTaskCompletionRecursive(taskId) {
+    const task = findTaskRecursive(taskId);
     if (task) {
         task.completed = !task.completed;
         
-        // If main task is manually completed, mark all subtasks as completed
-        if (task.completed && task.subtasks) {
-            task.subtasks.forEach(subtask => subtask.completed = true);
+        // If task is manually completed, mark all children as completed
+        if (task.completed && task.subtasks && task.subtasks.length > 0) {
+            markAllChildrenComplete(task, true);
         }
-        // If main task is manually uncompleted, mark all subtasks as uncompleted
-        else if (!task.completed && task.subtasks) {
-            task.subtasks.forEach(subtask => subtask.completed = false);
+        // If task is manually uncompleted, mark all children as uncompleted
+        else if (!task.completed && task.subtasks && task.subtasks.length > 0) {
+            markAllChildrenComplete(task, false);
         }
         
-        renderTasks();
+        // Update only the affected elements instead of full re-render
+        updateTaskDisplayRecursive(task);
+        updateParentTasksDisplay(taskId);
     }
 }
 
-function toggleSubtaskCompletion(taskId, subtaskId) {
-    const task = tasks.find(t => t.id === taskId);
-    if (task && task.subtasks) {
-        const subtask = task.subtasks.find(s => s.id === subtaskId);
-        if (subtask) {
-            subtask.completed = !subtask.completed;
-            
-            // Update only the specific subtask's visual state
-            updateSubtaskVisualState(taskId, subtaskId, subtask.completed);
-            
-            // Update the main task's completion status and progress
-            updateTaskCompletion(task);
-            updateTaskProgress(taskId, task);
+function insertNestedChildren(task, parentContainer, insertAfter, level) {
+    task.subtasks.forEach(subtask => {
+        const childElement = document.createElement('div');
+        childElement.className = 'subtask-item';
+        childElement.style.paddingLeft = `${30 + (level - 1) * 20}px`;
+        childElement.innerHTML = `
+            ${subtask.subtasks && subtask.subtasks.length > 0 ? `
+                <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}">▶</span>
+            ` : '<span class="subtask-spacer"></span>'}
+            <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
+                   onchange="toggleTaskCompletionRecursive('${subtask.id}')">
+            <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+            ${subtask.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
+        `;
+        
+        // Insert after the previous element
+        parentContainer.insertBefore(childElement, insertAfter.nextSibling);
+        insertAfter = childElement;
+        
+        // Recursively insert children if they're expanded
+        if (subtask.expanded && subtask.subtasks && subtask.subtasks.length > 0) {
+            insertAfter = insertNestedChildren(subtask, parentContainer, insertAfter, level + 1);
         }
+    });
+    return insertAfter;
+}
+
+function updateTaskDisplayRecursive(task) {
+    // Update the current task's visual state
+    const checkbox = document.querySelector(`input[onchange*="${task.id}"]`);
+    const titleElement = document.querySelector(`#toggle-${task.id}`);
+    
+    if (checkbox) {
+        checkbox.checked = task.completed;
+    }
+    
+    if (titleElement) {
+        const titleSpan = titleElement.parentElement.querySelector('.task-title, .subtask-title');
+        if (titleSpan) {
+            if (task.completed) {
+                titleSpan.classList.add('completed');
+            } else {
+                titleSpan.classList.remove('completed');
+            }
+        }
+        
+        // Update progress bar for main tasks (level 0)
+        const progressFill = titleElement.parentElement.querySelector('.progress-fill');
+        const progressText = titleElement.parentElement.querySelector('.progress-text');
+        
+        if (progressFill && progressText) {
+            const progress = calculateProgress(task);
+            const progressGradient = getProgressGradient(progress);
+            progressFill.style.width = `${progress}%`;
+            progressFill.style.background = progressGradient;
+            progressText.textContent = `${progress}%`;
+            
+            // Check for celebration
+            checkAndCelebrate(task);
+        }
+    }
+    
+    // Update all children if they exist
+    if (task.subtasks && task.subtasks.length > 0) {
+        task.subtasks.forEach(subtask => {
+            updateTaskDisplayRecursive(subtask);
+        });
+    }
+}
+
+function updateParentTasksDisplay(taskId) {
+    // Find and update all parent tasks to reflect new progress
+    const updateParentTask = (parentTask) => {
+        const parentToggle = document.querySelector(`#toggle-${parentTask.id}`);
+        if (parentToggle) {
+            const progressFill = parentToggle.parentElement.querySelector('.progress-fill');
+            const progressText = parentToggle.parentElement.querySelector('.progress-text');
+            
+            if (progressFill && progressText) {
+                const progress = calculateProgress(parentTask);
+                const progressGradient = getProgressGradient(progress);
+                progressFill.style.width = `${progress}%`;
+                progressFill.style.background = progressGradient;
+                progressText.textContent = `${progress}%`;
+                
+                // Check for celebration
+                checkAndCelebrate(parentTask);
+            }
+        }
+    };
+    
+    // Update all main tasks since we don't have explicit parent references
+    tasks.forEach(task => {
+        updateParentTask(task);
+    });
+}
+
+function markAllChildrenComplete(task, completed) {
+    if (task.subtasks && task.subtasks.length > 0) {
+        task.subtasks.forEach(subtask => {
+            subtask.completed = completed;
+            markAllChildrenComplete(subtask, completed);
+        });
     }
 }
 
@@ -362,7 +663,10 @@ function addNewTask() {
                     id: Date.now() + index + Math.random(),
                     title: subtaskTitle,
                     completed: false,
-                    weight: subtaskWeight
+                    expanded: false,
+                    weightedMode: false,
+                    weight: subtaskWeight,
+                    subtasks: []
                 });
             }
         });
@@ -371,62 +675,6 @@ function addNewTask() {
     tasks.push(newTask);
     renderTasks();
     closeAddTaskModal();
-}
-
-function updateSubtaskVisualState(taskId, subtaskId, completed) {
-    // Find the specific subtask element and update its visual state
-    const subtaskElements = document.querySelectorAll(`#subtasks-${taskId} .subtask-item`);
-    const subtask = tasks.find(t => t.id === taskId).subtasks.find(s => s.id === subtaskId);
-    const subtaskIndex = tasks.find(t => t.id === taskId).subtasks.indexOf(subtask);
-    
-    if (subtaskElements[subtaskIndex]) {
-        const checkbox = subtaskElements[subtaskIndex].querySelector('.subtask-checkbox');
-        const title = subtaskElements[subtaskIndex].querySelector('.subtask-title');
-        
-        checkbox.checked = completed;
-        if (completed) {
-            title.classList.add('completed');
-        } else {
-            title.classList.remove('completed');
-        }
-    }
-}
-
-function updateTaskProgress(taskId, task) {
-    const progress = calculateProgress(task);
-    const progressGradient = getProgressGradient(progress);
-    const progressFill = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.progress-fill');
-    const progressText = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.progress-text');
-    const taskCheckbox = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.task-checkbox');
-    const taskTitle = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.task-title');
-    
-    // Update progress bar with dynamic color
-    progressFill.style.width = `${progress}%`;
-    progressFill.style.background = progressGradient;
-    progressText.textContent = `${progress}%`;
-    
-    // Check for celebration
-    checkAndCelebrate(task);
-    
-    // Update time info for weighted tasks
-    if (task.weightedMode && task.subtasks && task.subtasks.length > 0) {
-        const timeInfoElement = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.time-info');
-        if (timeInfoElement) {
-            const totalTime = task.subtasks.reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
-            const completedTime = task.subtasks
-                .filter(subtask => subtask.completed)
-                .reduce((sum, subtask) => sum + (subtask.weight || 0), 0);
-            timeInfoElement.textContent = `${completedTime}/${totalTime} min`;
-        }
-    }
-    
-    // Update main task checkbox and title
-    taskCheckbox.checked = task.completed;
-    if (task.completed) {
-        taskTitle.classList.add('completed');
-    } else {
-        taskTitle.classList.remove('completed');
-    }
 }
 
 function getProgressColorHSL(percent) {
@@ -448,9 +696,20 @@ function getProgressGradient(percentage) {
 }
 
 function celebrateTaskCompletion(taskId, taskTitle) {
-    const taskElement = document.querySelector(`#toggle-${taskId}`).closest('.task-item');
-    const progressFill = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.progress-fill');
-    const progressContainer = document.querySelector(`#toggle-${taskId}`).parentElement.querySelector('.progress-container');
+    const toggleElement = document.querySelector(`#toggle-${taskId}`);
+    if (!toggleElement) {
+        // Element not in DOM yet, skip celebration
+        return;
+    }
+    
+    const taskElement = toggleElement.closest('.task-item');
+    const progressFill = toggleElement.parentElement.querySelector('.progress-fill');
+    const progressContainer = toggleElement.parentElement.querySelector('.progress-container');
+    
+    if (!taskElement || !progressFill || !progressContainer) {
+        // Required elements not found, skip celebration
+        return;
+    }
     
     // Add celebration class to task
     taskElement.classList.add('celebrating');
