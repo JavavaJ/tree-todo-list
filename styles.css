@@ -115,14 +115,10 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ffc107, #ff9800);
     border-radius: 4px;
     transition: all 0.5s ease;
     width: 0%;
-}
-
-.progress-fill.completed {
-    background: linear-gradient(90deg, #4CAF50, #45a049);
+    /* Color will be set dynamically by JavaScript */
 }
 
 .progress-text {
@@ -431,4 +427,81 @@ body {
 
 .subtask-input-group {
     align-items: center;
+}
+
+/* Celebration Animation Styles */
+@keyframes greenShine {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes celebrationBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
+}
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #4CAF50, #45a049);
+    border-radius: 50%;
+    animation: sparkle 2s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.sparkle::before {
+    content: '✨';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    font-size: 12px;
+    animation: sparkle 2s ease-in-out infinite reverse;
+}
+
+.task-item.celebrating {
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    border: 2px solid #4CAF50;
+}
+
+/* Add some extra shine to progress container during celebration */
+.task-item.celebrating .progress-container {
+    position: relative;
+    overflow: visible;
+}
+
+.task-item.celebrating .progress-container::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.3), transparent);
+    border-radius: 8px;
+    animation: greenShine 1.5s ease-in-out infinite;
+    pointer-events: none;
 } 
