@@ -243,12 +243,14 @@ function renderTaskRecursive(task, parentElement, level) {
         taskElement.className = 'task-item';
         taskElement.innerHTML = `
             <div class="task-header">
-                <span class="task-toggle ${task.subtasks && task.subtasks.length > 0 ? (task.expanded ? 'expanded' : '') : 'hidden'}" 
-                      id="toggle-${task.id}" onclick="toggleTaskRecursive('${task.id}')">▶</span>
-                <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                       onchange="toggleTaskCompletionRecursive('${task.id}')" onclick="event.stopPropagation()">
-                <span class="task-title ${task.completed ? 'completed' : ''}">${task.title}</span>
-                ${task.weightedMode ? '<span class="weighted-badge">⏱️</span>' : ''}
+                <div class="task-info">
+                    <span class="task-toggle ${task.subtasks && task.subtasks.length > 0 ? (task.expanded ? 'expanded' : '') : 'hidden'}" 
+                          id="toggle-${task.id}" onclick="toggleTaskRecursive('${task.id}')"></span>
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTaskCompletionRecursive('${task.id}')" onclick="event.stopPropagation()">
+                    <span class="task-title ${task.completed ? 'completed' : ''}">${task.title}</span>
+                    ${task.weightedMode ? '<span class="weighted-badge">⏱️</span>' : ''}
+                </div>
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" 
@@ -269,12 +271,14 @@ function renderTaskRecursive(task, parentElement, level) {
         taskElement.className = 'subtask-item';
         taskElement.style.paddingLeft = `${30 + (level - 1) * 20}px`;
         taskElement.innerHTML = `
-            ${task.subtasks && task.subtasks.length > 0 ? `
-                <span class="subtask-toggle ${task.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${task.id}')" id="toggle-${task.id}">▶</span>
-            ` : '<span class="subtask-spacer"></span>'}
-            <input type="checkbox" class="subtask-checkbox" ${task.completed ? 'checked' : ''}
-                   onchange="toggleTaskCompletionRecursive('${task.id}')">
-            <span class="subtask-title ${task.completed ? 'completed' : ''}">${task.title}</span>
+            <div class="subtask-info">
+                ${task.subtasks && task.subtasks.length > 0 ? `
+                    <span class="subtask-toggle ${task.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${task.id}')" id="toggle-${task.id}"></span>
+                ` : '<span class="subtask-spacer"></span>'}
+                <input type="checkbox" class="subtask-checkbox" ${task.completed ? 'checked' : ''}
+                       onchange="toggleTaskCompletionRecursive('${task.id}')">
+                <span class="subtask-title ${task.completed ? 'completed' : ''}">${task.title}</span>
+            </div>
             ${task.weightedMode && task.weight > 0 ? `<span class="subtask-weight">${task.weight} min</span>` : ''}
         `;
     }
@@ -350,12 +354,14 @@ function toggleTaskRecursive(taskId) {
                     childElement.className = 'subtask-item';
                     childElement.style.paddingLeft = `${30 + currentLevel * 20}px`;
                     childElement.innerHTML = `
-                        ${subtask.subtasks && subtask.subtasks.length > 0 ? `
-                            <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}">▶</span>
-                        ` : '<span class="subtask-spacer"></span>'}
-                        <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
-                               onchange="toggleTaskCompletionRecursive('${subtask.id}')">
-                        <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+                        <div class="subtask-info">
+                            ${subtask.subtasks && subtask.subtasks.length > 0 ? `
+                                <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}"></span>
+                            ` : '<span class="subtask-spacer"></span>'}
+                            <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
+                                   onchange="toggleTaskCompletionRecursive('${subtask.id}')">
+                            <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+                        </div>
                         ${subtask.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
                     `;
                     
@@ -423,12 +429,14 @@ function insertNestedChildren(task, parentContainer, insertAfter, level) {
         childElement.className = 'subtask-item';
         childElement.style.paddingLeft = `${30 + (level - 1) * 20}px`;
         childElement.innerHTML = `
-            ${subtask.subtasks && subtask.subtasks.length > 0 ? `
-                <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}">▶</span>
-            ` : '<span class="subtask-spacer"></span>'}
-            <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
-                   onchange="toggleTaskCompletionRecursive('${subtask.id}')">
-            <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+            <div class="subtask-info">
+                ${subtask.subtasks && subtask.subtasks.length > 0 ? `
+                                          <span class="subtask-toggle ${subtask.expanded ? 'expanded' : ''}" onclick="toggleTaskRecursive('${subtask.id}')" id="toggle-${subtask.id}"></span>
+                ` : '<span class="subtask-spacer"></span>'}
+                <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
+                       onchange="toggleTaskCompletionRecursive('${subtask.id}')">
+                <span class="subtask-title ${subtask.completed ? 'completed' : ''}">${subtask.title}</span>
+            </div>
             ${subtask.weightedMode && subtask.weight > 0 ? `<span class="subtask-weight">${subtask.weight} min</span>` : ''}
         `;
         
@@ -464,8 +472,10 @@ function updateTaskDisplayRecursive(task) {
         }
         
         // Update progress bar for main tasks (level 0)
-        const progressFill = titleElement.parentElement.querySelector('.progress-fill');
-        const progressText = titleElement.parentElement.querySelector('.progress-text');
+        // Navigate to the task-header level to find progress elements
+        const taskHeader = titleElement.closest('.task-header');
+        const progressFill = taskHeader ? taskHeader.querySelector('.progress-fill') : null;
+        const progressText = taskHeader ? taskHeader.querySelector('.progress-text') : null;
         
         if (progressFill && progressText) {
             const progress = calculateProgress(task);
@@ -492,8 +502,10 @@ function updateParentTasksDisplay(taskId) {
     const updateParentTask = (parentTask) => {
         const parentToggle = document.querySelector(`#toggle-${parentTask.id}`);
         if (parentToggle) {
-            const progressFill = parentToggle.parentElement.querySelector('.progress-fill');
-            const progressText = parentToggle.parentElement.querySelector('.progress-text');
+            // Navigate to the task-header level to find progress elements
+            const taskHeader = parentToggle.closest('.task-header');
+            const progressFill = taskHeader ? taskHeader.querySelector('.progress-fill') : null;
+            const progressText = taskHeader ? taskHeader.querySelector('.progress-text') : null;
             
             if (progressFill && progressText) {
                 const progress = calculateProgress(parentTask);
@@ -703,8 +715,9 @@ function celebrateTaskCompletion(taskId, taskTitle) {
     }
     
     const taskElement = toggleElement.closest('.task-item');
-    const progressFill = toggleElement.parentElement.querySelector('.progress-fill');
-    const progressContainer = toggleElement.parentElement.querySelector('.progress-container');
+    const taskHeader = toggleElement.closest('.task-header');
+    const progressFill = taskHeader ? taskHeader.querySelector('.progress-fill') : null;
+    const progressContainer = taskHeader ? taskHeader.querySelector('.progress-container') : null;
     
     if (!taskElement || !progressFill || !progressContainer) {
         // Required elements not found, skip celebration

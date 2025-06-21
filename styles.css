@@ -73,11 +73,23 @@ body {
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.3s ease;
 }
 
-.task-toggle.expanded {
+.task-toggle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 7px solid #666;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.task-toggle.expanded::before {
     transform: rotate(90deg);
 }
 
@@ -152,7 +164,7 @@ body {
 .subtask-item {
     display: flex;
     align-items: center;
-    padding: 12px 20px 12px 60px;
+    padding: 12px 20px 12px 35px;
     border-bottom: 1px solid #f0f0f0;
     transition: background-color 0.3s ease;
 }
@@ -323,23 +335,34 @@ body {
 
 /* Multi-level subtask styling */
 .subtask-toggle {
-    margin-right: 10px;
+    margin-right: 15px;
     width: 16px;
     height: 16px;
     cursor: pointer;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.3s ease;
-    display: inline-block;
 }
 
-.subtask-toggle.expanded {
+.subtask-toggle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid #666;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.subtask-toggle.expanded::before {
     transform: rotate(90deg);
 }
 
 .subtask-spacer {
     display: inline-block;
     width: 16px;
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .remove-subtask-btn {
@@ -521,4 +544,285 @@ body {
     border-radius: 8px;
     animation: greenShine 1.5s ease-in-out infinite;
     pointer-events: none;
+}
+
+/* Desktop styles for new task-info structure */
+.task-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+/* Responsive Design for Mobile Devices */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 10px;
+    }
+    
+    .header {
+        padding: 20px 15px;
+    }
+    
+    .header h1 {
+        font-size: 1.8em;
+        margin-bottom: 8px;
+    }
+    
+    .header p {
+        font-size: 0.95em;
+    }
+    
+    .todo-container {
+        padding: 20px 15px;
+    }
+    
+    .task-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 15px;
+        gap: 10px;
+    }
+    
+    .task-header .task-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .task-toggle {
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .task-toggle::before {
+        border-left: 6px solid #666;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+    }
+    
+    .subtask-toggle::before {
+        border-left: 6px solid #666;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+    }
+    
+    .task-checkbox {
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .task-title {
+        font-size: 1em;
+        flex: 1;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .progress-container {
+        flex: none;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    .progress-text {
+        font-size: 0.85em;
+    }
+    
+    .subtask-item {
+        padding: 10px 15px 10px 35px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .subtask-item .subtask-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .subtask-checkbox {
+        margin-right: 10px;
+        width: 14px;
+        height: 14px;
+    }
+    
+    .subtask-title {
+        font-size: 0.9em;
+        flex: 1;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .subtask-weight {
+        margin-left: 0;
+        margin-top: 5px;
+        align-self: flex-start;
+    }
+    
+    .add-task-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+    
+    /* Modal responsiveness */
+    .modal-popup {
+        width: 95%;
+        max-width: 400px;
+        margin: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
+        padding: 20px 20px 15px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.4em;
+    }
+    
+    .modal-header p {
+        font-size: 0.9em;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-input {
+        padding: 10px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+    }
+    
+    .subtask-input-group {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    
+    .subtask-input {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .subtask-weight-input {
+        width: 80px;
+        align-self: flex-start;
+    }
+    
+    .remove-subtask-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        align-self: center;
+    }
+    
+    .weighted-badge {
+        font-size: 0.75em;
+        margin-left: 5px;
+    }
+    
+    .time-info {
+        font-size: 0.75em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        border-radius: 8px;
+    }
+    
+    .header {
+        padding: 15px 10px;
+    }
+    
+    .header h1 {
+        font-size: 1.5em;
+    }
+    
+    .header p {
+        font-size: 0.9em;
+    }
+    
+    .todo-container {
+        padding: 15px 10px;
+    }
+    
+    .task-header {
+        padding: 10px 12px;
+    }
+    
+    .task-title {
+        font-size: 0.95em;
+    }
+    
+    .task-toggle::before {
+        border-left: 6px solid #666;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+    }
+    
+    .subtask-toggle::before {
+        border-left: 6px solid #666;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+    }
+    
+    .subtask-item {
+        padding: 8px 12px 8px 30px;
+    }
+    
+    .subtask-title {
+        font-size: 0.85em;
+    }
+    
+    .modal-popup {
+        width: 98%;
+        margin: 10px;
+    }
+    
+    .modal-header {
+        padding: 15px 15px 10px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.3em;
+    }
+    
+    .weighted-badge {
+        font-size: 0.7em;
+        padding: 1px 4px;
+    }
+    
+    .time-info {
+        font-size: 0.7em;
+    }
 } 
