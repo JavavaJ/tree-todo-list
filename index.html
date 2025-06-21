@@ -26,7 +26,7 @@
         <div class="modal-popup">
             <div class="modal-header">
                 <h2>🎯 Add New Task</h2>
-                <p>Create a new task with optional subtasks</p>
+                <p>Create a new task with unlimited nested subtasks</p>
             </div>
             
             <form id="addTaskForm">
@@ -47,11 +47,12 @@
                 
                 <div class="checkbox-group">
                     <input type="checkbox" id="hasSubtasks" onchange="toggleSubtasksSection()">
-                    <label for="hasSubtasks">Add subtasks to this task</label>
+                    <label for="hasSubtasks">Add nested subtasks to this task</label>
                 </div>
                 
                 <div id="subtasksSection" class="subtasks-section" style="display: none;">
-                    <h4>Subtasks:</h4>
+                    <h4>Nested Subtasks:</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Use the + button next to each subtask to add nested sub-items</p>
                     <div id="subtasksList">
                         <!-- Subtask inputs will be added here -->
                     </div>
@@ -66,6 +67,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html> 

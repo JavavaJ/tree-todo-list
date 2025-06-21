@@ -1,3 +1,13 @@
+// UUID Generation - supports CDN library with fallback
+function generateUniqueId() {
+    // Use CDN uuidv4() if available
+    if (typeof uuidv4 !== 'undefined') {
+        return uuidv4();
+    }
+    
+    return generateFallbackUUID();
+}
+
 // Sample data structure for tasks with unlimited nesting levels
 let tasks = [
     {
@@ -401,8 +411,6 @@ function toggleTaskRecursive(taskId) {
     }
 }
 
-
-
 function toggleTaskCompletionRecursive(taskId) {
     const task = findTaskRecursive(taskId);
     if (task) {
@@ -583,10 +591,10 @@ function toggleWeightedProgress() {
 
 function updateSubtaskWeightInputs() {
     const useWeighted = document.getElementById('useWeightedProgress').checked;
-    const subtaskInputs = document.querySelectorAll('.subtask-input-group');
+    const subtaskControls = document.querySelectorAll('.subtask-input-controls');
     
-    subtaskInputs.forEach(inputGroup => {
-        const existingWeightInput = inputGroup.querySelector('.subtask-weight-input');
+    subtaskControls.forEach(controlGroup => {
+        const existingWeightInput = controlGroup.querySelector('.subtask-weight-input');
         
         if (useWeighted && !existingWeightInput) {
             // Add weight input
@@ -595,11 +603,9 @@ function updateSubtaskWeightInputs() {
             weightInput.className = 'subtask-weight-input';
             weightInput.placeholder = 'Time (min)';
             weightInput.min = '1';
-            weightInput.style.width = '80px';
-            weightInput.style.marginRight = '10px';
             
-            const removeBtn = inputGroup.querySelector('.remove-subtask-btn');
-            inputGroup.insertBefore(weightInput, removeBtn);
+            const nestedBtn = controlGroup.querySelector('.add-nested-subtask-btn');
+            controlGroup.insertBefore(weightInput, nestedBtn);
         } else if (!useWeighted && existingWeightInput) {
             // Remove weight input
             existingWeightInput.remove();
@@ -607,33 +613,53 @@ function updateSubtaskWeightInputs() {
     });
 }
 
-function addSubtaskInput() {
-    const subtasksList = document.getElementById('subtasksList');
-    const subtaskCount = subtasksList.children.length;
+function addSubtaskInput(parentContainer = null, level = 0) {
+    const container = parentContainer || document.getElementById('subtasksList');
+    const subtaskCount = container.querySelectorAll('.subtask-input-group').length;
     const useWeighted = document.getElementById('useWeightedProgress').checked;
     
     const subtaskDiv = document.createElement('div');
     subtaskDiv.className = 'subtask-input-group';
+    subtaskDiv.dataset.level = level;
+    subtaskDiv.style.marginLeft = `${level * 20}px`;
     
     let weightInputHtml = '';
     if (useWeighted) {
-        weightInputHtml = '<input type="number" class="subtask-weight-input" placeholder="Time (min)" min="1" style="width: 80px; margin-right: 10px;">';
+        weightInputHtml = '<input type="number" class="subtask-weight-input" placeholder="Time (min)" min="1">';
     }
     
+    const uniqueId = generateUniqueId();
+    
     subtaskDiv.innerHTML = `
-        <input type="text" class="subtask-input" placeholder="Enter subtask title..." data-index="${subtaskCount}">
-        ${weightInputHtml}
-        <button type="button" class="remove-subtask-btn" onclick="removeSubtaskInput(this)">×</button>
+        <div class="subtask-input-controls">
+            <input type="text" class="subtask-input" placeholder="Enter subtask title..." data-index="${subtaskCount}" data-id="${uniqueId}">
+            ${weightInputHtml}
+            <button type="button" class="add-nested-subtask-btn" onclick="addNestedSubtask('${uniqueId}', ${level + 1})" title="Add nested subtask">+</button>
+            <button type="button" class="remove-subtask-btn" onclick="removeSubtaskInput(this)">×</button>
+        </div>
+        <div class="nested-subtasks-container" data-parent-id="${uniqueId}"></div>
     `;
     
-    subtasksList.appendChild(subtaskDiv);
+    container.appendChild(subtaskDiv);
     
     // Focus the new input
     subtaskDiv.querySelector('.subtask-input').focus();
+    
+    return subtaskDiv;
+}
+
+function addNestedSubtask(parentId, level) {
+    const parentContainer = document.querySelector(`[data-parent-id="${parentId}"]`);
+    if (parentContainer) {
+        addSubtaskInput(parentContainer, level);
+    }
 }
 
 function removeSubtaskInput(button) {
-    button.parentElement.remove();
+    const subtaskGroup = button.closest('.subtask-input-group');
+    if (subtaskGroup) {
+        subtaskGroup.remove();
+    }
 }
 
 function addNewTask() {
@@ -650,7 +676,7 @@ function addNewTask() {
     const taskWeight = useWeighted ? parseInt(document.getElementById('taskWeight').value) || 0 : 0;
     
     const newTask = {
-        id: Date.now(),
+        id: generateUniqueId(),
         title: title,
         completed: false,
         expanded: false,
@@ -662,31 +688,51 @@ function addNewTask() {
     // Collect subtasks if any
     const hasSubtasks = document.getElementById('hasSubtasks').checked;
     if (hasSubtasks) {
-        const subtaskInputs = document.querySelectorAll('.subtask-input');
-        const weightInputs = document.querySelectorAll('.subtask-weight-input');
-        
-        subtaskInputs.forEach((input, index) => {
+        newTask.subtasks = collectNestedSubtasks(document.getElementById('subtasksList'));
+    }
+    
+    tasks.push(newTask);
+    renderTasks();
+    closeAddTaskModal();
+}
+
+function collectNestedSubtasks(container) {
+    const subtasks = [];
+    const subtaskGroups = container.children;
+    
+    for (let group of subtaskGroups) {
+        if (group.classList.contains('subtask-input-group')) {
+            const input = group.querySelector('.subtask-input');
+            const weightInput = group.querySelector('.subtask-weight-input');
+            const nestedContainer = group.querySelector('.nested-subtasks-container');
+            
             const subtaskTitle = input.value.trim();
             if (subtaskTitle) {
-                const subtaskWeight = useWeighted && weightInputs[index] ? 
-                    parseInt(weightInputs[index].value) || 0 : 0;
+                const useWeighted = document.getElementById('useWeightedProgress').checked;
+                const subtaskWeight = useWeighted && weightInput ? 
+                    parseInt(weightInput.value) || 0 : 0;
                 
-                newTask.subtasks.push({
-                    id: Date.now() + index + Math.random(),
+                const subtask = {
+                    id: generateUniqueId(),
                     title: subtaskTitle,
                     completed: false,
                     expanded: false,
                     weightedMode: false,
                     weight: subtaskWeight,
                     subtasks: []
-                });
+                };
+                
+                // Recursively collect nested subtasks
+                if (nestedContainer && nestedContainer.children.length > 0) {
+                    subtask.subtasks = collectNestedSubtasks(nestedContainer);
+                }
+                
+                subtasks.push(subtask);
             }
-        });
+        }
     }
     
-    tasks.push(newTask);
-    renderTasks();
-    closeAddTaskModal();
+    return subtasks;
 }
 
 function getProgressColorHSL(percent) {
